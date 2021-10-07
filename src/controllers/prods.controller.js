@@ -1,4 +1,28 @@
 import { prodService } from "../services/index.js";
+import { db } from "../db.js";
+
+// creación de tabla
+(async function () {
+  try {
+    const exist = await db.schema.hasTable("productos");
+    console.log(exist);
+
+    if (!exist) {
+      await db.schema.createTable("productos", (table) => {
+        table.increments("id").primary().notNullable();
+        table.string("nombre", 40).notNullable();
+        table.string("codigo", 40).notNullable();
+        table.string("descripcion", 500).notNullable();
+        table.float("precio").notNullable();
+        table.string("foto", 500).notNullable();
+        table.timestamps(true, true);
+      });
+      console.log("Tabla PRODUCTOS creada");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+})();
 
 export async function createProduct(req, res) {
     const { body } = req;

@@ -2,7 +2,7 @@ import { db } from "../db.js";
 
 export async function createCart(data) {
   try {
-    const cart = await db("carrito").insert(data);
+    const cart = await db("carritos").insert(data);
     return cart;
   } catch (error) {
     throw new Error(error);
@@ -11,7 +11,7 @@ export async function createCart(data) {
 
 export async function getCart(id) {
   try {
-    let cart = await db("carrito-producto").select().where("cp_carrito", id);
+    const cart = await db("carritos").select().where("id", id);
     if (!cart) throw new Error("Carrito inexistente");
     return cart;
   } catch (error) {
@@ -21,48 +21,25 @@ export async function getCart(id) {
 
 export async function deleteCart(id) {
   try {
-    await db("carrito-producto").del().where("cp_carrito", id);
-    await db("carrito").del().where("id", id);
-    return;
+    const cart = await db("carritos").del().where("id", id);
+    return cart;
   } catch (error) {
     throw new Error(error);
   }
 }
 
-export async function postProdsCart(cartId, productId) {
+export async function postProdsCart(c_id, p_id) {
   try {
-    /* let cart = await db('carrito').select().where("id", cartId);
-    if (!cart) throw new Error("Carrito inexistente");
-
-    let product = await db('productos').select().where("id", productId)
-    if (!product) throw new Error("Producto no encontrado"); */
-
-    /* const cartWithProds = await db('buyList').insert(productId).where("cart_id" === cartId)
-    console.log(cartWithProds);
-    return cartWithProds */
-
-    const prodInCart = await db("carrito_producto").insert(cartId, productId);
-    return prodInCart;
+    const prodInCart = await db("carritos_productos").insert({product_id: p_id}).where({cart_id: c_id});
+    return prodInCart
   } catch (error) {
     throw new Error(error);
   }
 }
 
-/*  export async function deleteProductCart(cartId, productId) {
-    try {
-      const cart = await contCarritos.getDB().select().where("id", cartId);
-      console.log(cart)
-      if (!cart) throw new Error("Carrito inexistente");
-  
-      const producto = await prodsModel.default.findOne({ productId });
-      console.log(producto)
-  
-      if (cart.cartProducts.includes(producto)) {
-        cart.cartProducts.remove(producto);
-      } 
-      await cart.save();
-      return cart;
-    } catch (error) {
-      throw new Error(error);
-    }
-  } */
+export async function deleteProductCart(cartId, productId) {
+  try {
+  } catch (error) {
+    throw new Error(error);
+  }
+}
