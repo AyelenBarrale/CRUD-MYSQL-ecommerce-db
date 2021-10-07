@@ -30,8 +30,11 @@ export async function deleteCart(id) {
 
 export async function postProdsCart(c_id, p_id) {
   try {
-    const prodInCart = await db("carritos_productos").insert({product_id: p_id}).where({cart_id: c_id});
-    return prodInCart
+    const prodInCart = await db("carritos_productos").insert({
+      cart_id: c_id,
+      product_id: p_id
+    })
+    return prodInCart;
   } catch (error) {
     throw new Error(error);
   }

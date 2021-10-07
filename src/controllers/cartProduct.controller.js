@@ -14,13 +14,13 @@ import { db } from "../db.js";
           .references("carritos.id")
           .onDelete("CASCADE")
           .onUpdate("CASCADE");
-          table.integer("product_id").unsigned();
+        table.integer("product_id").unsigned();
         table
           .foreign("product_id")
           .references("productos.id")
           .onDelete("CASCADE")
           .onUpdate("CASCADE");
-          table.primary(["cart_id", "product_id"])
+        table.primary(["cart_id", "product_id"]);
       });
       console.log("Tabla CARRITOS_PRODUCTOS creada");
     }
@@ -28,5 +28,3 @@ import { db } from "../db.js";
     console.log(error);
   }
 })();
-
-
